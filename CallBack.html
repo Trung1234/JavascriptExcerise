@@ -30,6 +30,19 @@
             console.log(a*b)
         },10,20)//10*20 : invoke callback()
 
+
+        // demo api call
+        function fetch(hi){
+            setTimeout(function(){
+                hi("Hello")
+            },7000)
+            // lamf viec khac
+            console.log("JS is easy way")
+        }
+
+        fetch(function (str){
+            console.log(str)
+        })
     </script>
 
 </body>
