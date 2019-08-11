@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>JavaScript Statements</h2>
+
+    <p>A <b>JavaScript program</b> is a list of <b>statements</b> to be executed by a computer.</p>
+
+    <p id="demo">Hello js</p>
+    <a id="ar" href="#">Trung sieu nhan</a>
+
+    <table id="t01">
+        <thead>
+                <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                    </tr>
+        </thead>
+        <tbody id="table-body">
+            
+        </tbody>
+
+    </table>
+    <script>
+        console.log('-------------------------------------------------')
+        var p = document.getElementById("demo");
+        p.innerHTML = "Trung"
+        p.id = "name"
+        console.log(p)
+        document.getElementById("ar").setAttribute("href", "http://truyentranhtuan.com/one-piece-chuong-951/");
+        console.log('------------------------------------------------')
+        var persons = [
+            { id: 4, name: 'kien', age: 20 },
+            { id: 2, name: 'Trung', age: 20 },
+            { id: 3, name: 'Son', age: 20 },
+        ]
+        //tao child element
+        // var tdId = document.createElement("td");
+        // tdId.innerHTML = "1"
+
+        // var tdName = document.createElement("td");
+        // tdName.innerHTML = "AA"
+        // var tdAge = document.createElement("td");
+        // tdAge .innerHTML = "20"
+        // var tr = document.createElement("tr");
+        // tr.appendChild(tdId)
+        // tr.appendChild(tdName)
+        // tr.appendChild(tdAge)
+
+        // document.getElementById("table-body").appendChild("tr")
+
+        persons.forEach(function (person) {
+            var tdId = document.createElement("td");
+            tdId.innerHTML = person.id
+
+            var tdName = document.createElement("td");
+            tdName.innerHTML = person.name
+            var tdAge = document.createElement("td");
+            tdAge.innerHTML = person.age
+            var tr = document.createElement("tr");
+            tr.appendChild(tdId)
+            tr.appendChild(tdName)
+            tr.appendChild(tdAge)
+            var body = document.getElementById("table-body")
+            body.appendChild(tr)
+        })
+    </script>
+
+</body>
+
+</html>
