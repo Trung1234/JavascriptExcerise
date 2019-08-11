@@ -13,15 +13,26 @@
         console.log('-------------------------------------------------')
         console.log('This JSON syntax defines an employees object: an array of 3 employee records (objects)')
         var p = {
-            cpunt: 3,
+            count: 3,
             "employees": [
                 { "firstName": "John", "lastName": "Doe" },
                 { "firstName": "Anna", "lastName": "Smith" },
                 { "firstName": "Peter", "lastName": "Jones" }
             ]
         }
+        console.log(p)
         // convert obj to string json formart 
-        console.log(JSON.stringify(p))
+        var str = JSON.stringify(p)
+        console.log(str)
+
+        // convert strong to js object
+        var son = JSON.parse(str)
+        console.log(son)
+        console.log('------------------------------------------------')
+
+        son.employees.forEach(function(person){
+            console.log(person.firstName)
+        })
         console.log('------------------------------------------------')
     </script>
 
