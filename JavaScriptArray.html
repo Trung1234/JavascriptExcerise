@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>JavaScript Statements</h2>
+
+    <p>A <b>JavaScript program</b> is a list of <b>statements</b> to be executed by a computer.</p>
+
+    <p id="demo"></p>
+
+    <script>
+        // var numbers = [17,27,30,4,15]
+        // console.log(numbers[7])
+        // //sort from min to max
+        // numbers.sort(function(a,b){return a-b});
+        // numbers.forEach(function(v, index){
+        //     console.log(v)
+        //     //console.log(index)
+        // })
+        console.log('--------------------')
+        console.log('-------Array-----')
+        var kien = {name: "Kien",age: 22}
+        var persons = [kien,{
+            name: 'Java',
+            age: 20
+        }]
+       
+        persons.push({
+            name: 'Trung',
+            age: 20
+        })
+        
+
+        persons.sort(function(a,b){
+            if(a.age==b.age){
+                return a.name-b.name
+            }
+            return a.age-b.age
+        });
+        persons.forEach(function(v){
+            console.log(v.name + ' : '+v.age)
+        })
+
+        // Try Catch
+        console.log('--------------------')
+        console.log('-------Try Catch-----')
+        function chia(a,b){
+            if(b == 0){
+                throw "Khong the chia 0"
+            }
+            return a /b;
+        }
+        try{
+            console.log(chia(10,0))
+        }catch(err){
+            
+            console.log(err)
+        }finally{
+            console.log("LUON GOI")
+        }
+        console.log('--------------------')
+    </script>
+
+</body>
+
+</html>
