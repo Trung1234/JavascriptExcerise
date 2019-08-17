@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello Javascript</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <p id="demo">Hello Js</p>
+    <a href="#" id="link">Trung Tam java</a>
+    <form>
+        <div>
+            <label>Id: </label>
+            <input id="id" type="number" value="">
+        </div>
+        <div>
+            <label>Name: </label>
+            <input id="name" type="text" value="">
+        </div>
+        <div>
+            <label>Age: </label>
+            <input id="age" type="text" onkeyup="validateAge()" value="">
+        </div>
+        <div>
+            <button type="button" onclick="addPerson()">Them</button>
+        </div>
+    </form>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>age</th>
+            <th>Thao tac</th>
+        </thead>
+        <tbody id="table-body">
+            <tr>
+                <td>1</td>
+                <td>Kien</td>
+                <td>20</td>
+                <td>
+                    <button>Sua</button>
+                    <button >Xoa</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        var persons = [
+            { id: 1, name: 'kien', age: 20 },
+            { id: 2, name: 'son', age: 30 },
+            { id: 3, name: 'duy', age: 10 }
+        ]
+
+        persons.forEach(function (person) {
+            appendPersonToTable(person)
+        })
+
+        function appendPersonToTable(person){
+            //tao child element
+            var tdId = document.createElement("td");
+            tdId.innerHTML = person.id
+
+            var tdName = document.createElement("td");
+            tdName.innerHTML = person.name
+
+            var tdAge = document.createElement("td");
+            tdAge.innerHTML = person.age
+
+            var buttonEdit = document.createElement("button");
+            buttonEdit.innerHTML = "Sửa"
+
+            var buttonDelete = document.createElement("button");
+            buttonDelete.innerHTML = "Xóa"
+            // event xóa
+            buttonDelete.addEventListener("click",function(){
+                console.log(this)
+                console.log(this.parentElement)
+                var tr= this.parentElement.parentElement;
+                var tbody = document.getElementById("table-body");
+                tbody.removeChild(tr)
+            })
+   
+            var tdAction = document.createElement("td");
+            tdAction.appendChild(buttonEdit)
+            tdAction.appendChild(buttonDelete)
+
+            var tr = document.createElement("tr");
+            tr.appendChild(tdId)
+            tr.appendChild(tdName)
+            tr.appendChild(tdAge)
+            tr.appendChild(tdAction)
+
+            var tbody = document.getElementById("table-body");
+            tbody.appendChild(tr)
+        }
+
+        var kien = document.getElementById("demo");
+        kien.innerHTML = "HELLO HTML DOM"
+        //kien.id = "name"
+        kien.style.color = 'red'
+        kien.setAttribute("name", "demo")
+
+        document.getElementById("link").setAttribute("href", "http://trungtamjava.com/");
+
+        function addPerson(id) {
+            var id = document.getElementById("id").value;
+            var name = document.getElementById("name").value;
+            var age = document.getElementById("age").value;
+
+            var person = {
+                id: id,
+                name: name,
+                age: age
+            }
+            console.log(person)
+           
+                appendPersonToTable(person)
+            
+           
+        }
+
+        function validateAge() {
+            var age = document.getElementById("age").value;
+            if (isANumber(age)) {
+                document.getElementById("age").style.borderColor = 'green'
+            } else {
+                document.getElementById("age").style.borderColor = 'red'
+            }
+        }
+
+        function isANumber(str) {
+            return !/\D/.test(str);
+        }
+
+        document.getElementById("id").onkeyup = function(){
+            // this = document.getElementById("id")
+            var id = this.value;
+            if (isANumber(id)) {
+                this.style.borderColor  = 'green'
+            } else {
+                this.style.borderColor = 'red'
+            }
+        }
+
+        //tuong duong
+        // document.getElementById("id").addEventListener("keyup",function(){
+        //     // this = document.getElementById("id")
+        //     var id = this.value;
+        //     if (isANumber(id)) {
+        //         this.style.borderColor  = 'green'
+        //     } else {
+        //         this.style.borderColor = 'red'
+        //     }
+        // })
+    </script>
+</body>
+
+</html>
