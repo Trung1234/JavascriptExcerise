@@ -70,45 +70,69 @@
                     $(this).css({ 'borderColor': 'red' });
                 }
             })
+
+            //tuong duong
+        // $("#id").on("keyup", function () {
+        //     var id = this.value;
+        //     if (isANumber(id)) {
+        //         this.style.borderColor = 'green'
+        //     } else {
+        //         this.style.borderColor = 'red'
+        //     }
+        // });
         })
+
+        function deleteItem(element){
+            console.log(element)
+            var tr = $(element).parent().parent()
+            tr.remove();
+        }
 
         function appendPersonToTable(person) {
             //tao child element
-            var tdId = document.createElement("td");
-            tdId.innerHTML = person.id
+            var tdId = "<td>"+person.id+"</td>";
+            var tdName = "<td>"+person.name+"</td>";
+            var tdAge = "<td>"+person.age+"</td>";
+            // tdId.innerHTML = person.id
 
-            var tdName = document.createElement("td");
-            tdName.innerHTML = person.name
+            
+            // tdName.innerHTML = person.name
 
-            var tdAge = document.createElement("td");
-            tdAge.innerHTML = person.age
+            // tdAge.innerHTML = person.age
 
-            var buttonEdit = document.createElement("button");
-            buttonEdit.innerHTML = "Sửa"
+            var buttonEdit = "<button type='button'>Sửa</button>"
+            var buttonDelete = "<button onclick='deleteItem(this)' type='button'>Xóa</button>"
+            // var buttonEdit = document.createElement("button");
+            // buttonEdit.innerHTML = "Sửa"
 
-            var buttonDelete = document.createElement("button");
-            buttonDelete.innerHTML = "Xóa"
-            buttonDelete.addEventListener("click", function () {
-                console.log(this)
-                var parent = this.parentElement;
-                var tr = parent.parentElement
+            // var buttonDelete = document.createElement("button");
+            // buttonDelete.innerHTML = "Xóa"
 
-                var tbody = document.getElementById("table-body");
-                tbody.removeChild(tr);
-            })
+            var tdAction = "<td>"+buttonEdit+buttonDelete+"</td>";
+            var tr = "<tr>"+tdId+tdName+tdAge+tdAction+"</tr>";
+            
+            $("#table-body").append(tr)
+            // buttonDelete.addEventListener("click", function () {
+            //     console.log(this)
+            //     var parent = this.parentElement;
+            //     var tr = parent.parentElement
 
-            var tdAction = document.createElement("td");
-            tdAction.appendChild(buttonEdit)
-            tdAction.appendChild(buttonDelete)
+            //     var tbody = document.getElementById("table-body");
+            //     tbody.removeChild(tr);
+            // })
 
-            var tr = document.createElement("tr");
-            tr.appendChild(tdId)
-            tr.appendChild(tdName)
-            tr.appendChild(tdAge)
-            tr.appendChild(tdAction)
+            // var tdAction = document.createElement("td");
+            // tdAction.appendChild(buttonEdit)
+            // tdAction.appendChild(buttonDelete)
 
-            var tbody = document.getElementById("table-body");
-            tbody.appendChild(tr)
+            // var tr = document.createElement("tr");
+            // tr.appendChild(tdId)
+            // tr.appendChild(tdName)
+            // tr.appendChild(tdAge)
+            // tr.appendChild(tdAction)
+
+            // var tbody = document.getElementById("table-body");
+            //tbody.appendChild(tr)
         }
 
         var kien = document.getElementById("demo");
@@ -146,16 +170,56 @@
             return !/\D/.test(str);
         }
 
+        $(function(){
+            loadData()
+        })
 
-        //tuong duong
-        $("#id").on("keyup", function () {
-            var id = this.value;
-            if (isANumber(id)) {
-                this.style.borderColor = 'green'
-            } else {
-                this.style.borderColor = 'red'
-            }
-        });
+        function loadData() {
+            var autStr = '0123456789:123456'
+            // cau truc : basic + cach
+            const basic = "Basic " + btoa(autStr)
+            const searchObj = {};
+
+            $.ajax({
+                url: "http://103.237.144.163:8081/api/staff/bus-contact/search",
+                contentType: "application/json",
+                dataType: 'json',
+                method: 'POST',
+                headers: {
+                    Authorization: basic
+                },
+                success: function(response){
+                    response.data.forEach(function(item){
+                        appendPersonToTable(item)
+                    })
+                },
+                error: function(ex){
+                    console.log(ex)
+
+                }
+            })
+            // var xhttp = new XMLHttpRequest();
+
+            // // lang nghe su kien gui di
+            // xhttp.onreadystatechange = function() {
+            //     if (this.readyState == 4 && this.status == 200) {
+            //         console.log(this.responseText);
+            //         // convert sang JS Object
+            //         const response = JSON.parse(this.responseText);
+            //         console.log(response)
+            //         response.data.forEach(function(item){
+            //             appendPersonToTable(item)
+            //         })
+            //     }
+            // };
+            // xhttp.open("POST", "http://103.237.144.163:8081/api/staff/bus-contact/search", true);
+            // // set content type la application/json
+            // xhttp.setRequestHeader("Content-type", "application/json");
+            // xhttp.setRequestHeader("Authorization", basic);
+            // xhttp.send(JSON.stringify(searchObj));
+        }
+
+        
     </script>
 </body>
 
