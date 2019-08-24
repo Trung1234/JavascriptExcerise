@@ -10,10 +10,10 @@
     <p id="demo">Hello Js</p>
     <a href="#" id="link">Trung Tam java</a>
     <form>
-        <div>
+        <!-- <div>
             <label>Id: </label>
             <input id="id" type="text" value="">
-        </div>
+        </div> -->
         <div>
             <label>Name: </label>
             <input id="name" type="text" value="">
@@ -84,16 +84,7 @@
                 }
             })
 
-            //tuong duong
-            // $("#id").on("keyup", function () {
-            //     var id = this.value;
-            //     if (isANumber(id)) {
-            //         this.style.borderColor = 'green'
-            //     } else {
-            //         this.style.borderColor = 'red'
-            //     }
-            // });
-
+       
             $("#link").attr("href", "http://trungtamjava.com/");
         })
 
@@ -105,6 +96,15 @@
             deletePerson(pId)
         }
 
+        function editItem(pId, pName,pPhone,pPassword,pNote,pEmail,pWebsite) {
+			// $("#id").val(pId);
+			$("#name").val(decodeURI(pName));
+            $("#phone").val(decodeURI(pPhone));
+            $("#password").val(decodeURI(pPassword));
+            $("#note").val(decodeURI(pNote,));
+            $("#email").val(decodeURI(pEmail));
+            $("#website").val(decodeURI(pWebsite));
+		}
         function appendPersonToTable(person) {
             //tao child element
             var tdId = "<td>" + person.id + "</td>"
@@ -113,10 +113,17 @@
             var tdNote = "<td>" + person.note + "</td>"
             var tdMail = "<td>" + person.mail + "</td>"
             var tdWebsite = "<td>" + person.website + "</td>"
-
+            var buttonEdit = "<button onclick='editItem(" + person.id 
+                                    + ", \"" + encodeURI(person.name) + "\""
+                                    + ", \""+ encodeURI(person.phone)+ "\""
+                                    + ", \""+ encodeURI(person.password)+ "\""
+                                    + ", \""+ encodeURI(person.note)+ "\""
+                                    + ", \""+ encodeURI(person.email)+ "\""
+                                    + ", \""+ encodeURI(person.website)+ "\""
+                                    + ")' type='button'> Sửa </button>";
             var buttonDelete = "<button onclick='deleteItem(this," + person.id + ")' type='button'> Xoá </button>";
 
-            var tdAction = "<td>" +buttonDelete + "</td>"
+            var tdAction = "<td>" +buttonEdit+buttonDelete + "</td>"
             var tr = "<tr>" + tdId + tdName + tdPhone+tdNote+tdMail+tdWebsite + tdAction + "</tr>"
 
             $("#table-body").append(tr)
@@ -154,8 +161,10 @@
                 data: JSON.stringify(person),
                 success: function (response) {
                     appendPersonToTable(response)
+                    alert("update successfull")
                 },
                 error: function (ex) {
+                    alert("update fail")
                     console.log(ex)
                 }
             })
@@ -189,9 +198,11 @@
                 data: JSON.stringify(person),
                 success: function (response) {
                     appendPersonToTable(response)
+                    alert("add successfull")
                 },
                 error: function (ex) {
                     console.log(ex)
+                    alert("add fail")
                 }
             })
         }
@@ -235,27 +246,6 @@
             })
         }
 
-        function submitPerson(person) {
-            var authStr = '0123456789:123456'
-            const basic = "Basic " + btoa(authStr)
-                
-            $.ajax({
-                url: "http://45.119.213.160:8080/api/admin/user/list",
-                contentType: 'application/json',
-                dataType: 'json',
-                method: 'POST',
-                headers: {
-                    Authorization: basic
-                },
-                data: JSON.stringify(person),
-                success: function (response) {
-                    appendPersonToTable(response)
-                },
-                error: function (ex) {
-                    console.log(ex)
-                }
-            })
-        }
 
         function loadData() {
             //clear data
@@ -285,22 +275,6 @@
                 }
             })
 
-            // var xhttp = new XMLHttpRequest();
-            // xhttp.onreadystatechange = function () {
-            //     if (this.readyState == 4 && this.status == 200) {
-            //         console.log(this.responseText);
-            //         //convert sang JS OBject
-            //         const response = JSON.parse(this.responseText);
-            //         console.log(response)
-            //         response.data.forEach(function(item){
-            //             appendPersonToTable(item)
-            //         })
-            //     }
-            // };
-            // xhttp.open("POST", "http://103.237.144.163:8081/api/staff/bus-contact/search", true);
-            // xhttp.setRequestHeader("Content-type", "application/json");
-            // xhttp.setRequestHeader("Authorization", basic);
-            // xhttp.send(JSON.stringify(searchObj));
         }
 
     </script>
