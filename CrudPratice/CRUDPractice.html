@@ -39,7 +39,8 @@
             <input id="website" type="text"  value="">
         </div>
         <div>
-            <button type="button" onclick="addPerson()">Them</button>
+            <button type="button" onclick="addPerson()">Add</button>
+            <button type="button" onclick="updatePerson()">Update</button>
         </div>
     </form>
     <table>
@@ -56,6 +57,8 @@
 
         </tbody>
     </table>
+
+
     <script>
 
         var persons = [
@@ -111,13 +114,51 @@
             var tdMail = "<td>" + person.mail + "</td>"
             var tdWebsite = "<td>" + person.website + "</td>"
 
-            var buttonEdit = "<button type='button'> Sửa </button>";
             var buttonDelete = "<button onclick='deleteItem(this," + person.id + ")' type='button'> Xoá </button>";
 
-            var tdAction = "<td>" + buttonEdit + buttonDelete + "</td>"
+            var tdAction = "<td>" +buttonDelete + "</td>"
             var tr = "<tr>" + tdId + tdName + tdPhone+tdNote+tdMail+tdWebsite + tdAction + "</tr>"
 
             $("#table-body").append(tr)
+        }
+
+        function updatePerson(id) {
+            var authStr = '0123456789:123456'
+            const basic = "Basic " + btoa(authStr)
+            var id = $("#id").val()
+            var name = $("#name").val()
+            var phone = $("#phone").val()
+            var note = $("#note").val()
+            var email = $("#email").val()
+            var website = $("#website").val()
+            var password = $("#password").val()
+            var person = {
+                id: id,
+                name: name,
+                password: password,
+                phone: phone,
+                note: note,
+                mail: mail,
+                website: website
+            }
+            console.log(person)
+
+            $.ajax({
+                url: "http://45.119.213.160:8080/api/admin/user/update",
+                contentType: 'application/json',
+                dataType: 'text',
+                method: 'PUT',
+                headers: {
+                    Authorization: basic
+                },
+                data: JSON.stringify(person),
+                success: function (response) {
+                    appendPersonToTable(response)
+                },
+                error: function (ex) {
+                    console.log(ex)
+                }
+            })
         }
 
         function addPerson() {
@@ -172,6 +213,7 @@
             loadData()
         })
 
+
         function deletePerson(id) {
             var authStr = '0123456789:123456'
             const basic = "Basic " + btoa(authStr)
@@ -216,6 +258,8 @@
         }
 
         function loadData() {
+            //clear data
+            $("#table-body").html("");
             var authStr = '0123456789:123456'
             const basic = "Basic " + btoa(authStr)
             const searchObj = { "start":null};
