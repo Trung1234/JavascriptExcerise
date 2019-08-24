@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello Javascript</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <p id="demo">Hello Js</p>
+    <a href="#" id="link">Trung Tam java</a>
+    <form>
+        <div>
+            <label>Id: </label>
+            <input id="id" type="text" value="">
+        </div>
+        <div>
+            <label>Name: </label>
+            <input id="name" type="text" value="">
+        </div>
+        <div>
+            <label>Password: </label>
+            <input id="password" type="text"  value="">
+        </div>
+        <div>
+            <label>Phone: </label>
+            <input id="phone" type="text"  value="">
+        </div>
+        <div>
+            <label>Note: </label>
+            <input id="note" type="text"  value="">
+        </div>
+        <div>
+            <label>Mail: </label>
+            <input id="mail" type="text"  value="">
+        </div>
+        <div>
+            <label>Website: </label>
+            <input id="website" type="text"  value="">
+        </div>
+        <div>
+            <button type="button" onclick="addPerson()">Them</button>
+        </div>
+    </form>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Note</th>
+            <th>Email</th>
+            <th>Website</th>
+            <th>Thao tac</th>
+        </thead>
+        <tbody id="table-body">
+
+        </tbody>
+    </table>
+    <script>
+
+        var persons = [
+            { id: 1, name: 'kien', age: 20 },
+
+        ]
+
+        // $(document).ready(function () {
+
+        // })
+        //tuong duong
+        $(function () {
+            persons.forEach(function (person) {
+                appendPersonToTable(person)
+            })
+
+            $("#id").keyup(function () {
+                var id = $(this).val()
+                if (isANumber(id)) {
+                    $(this).css({ 'borderColor': 'green' });
+                } else {
+                    $(this).css({ 'borderColor': 'red' });
+                }
+            })
+
+            //tuong duong
+            // $("#id").on("keyup", function () {
+            //     var id = this.value;
+            //     if (isANumber(id)) {
+            //         this.style.borderColor = 'green'
+            //     } else {
+            //         this.style.borderColor = 'red'
+            //     }
+            // });
+
+            $("#link").attr("href", "http://trungtamjava.com/");
+        })
+
+        function deleteItem(element, pId) {
+            console.log(element)
+            var tr = $(element).parent().parent()
+            tr.remove();
+
+            deletePerson(pId)
+        }
+
+        function appendPersonToTable(person) {
+            //tao child element
+            var tdId = "<td>" + person.id + "</td>"
+            var tdName = "<td>" + person.name + "</td>"
+            var tdPhone = "<td>" + person.phone + "</td>"
+            var tdNote = "<td>" + person.note + "</td>"
+            var tdMail = "<td>" + person.mail + "</td>"
+            var tdWebsite = "<td>" + person.website + "</td>"
+
+            var buttonEdit = "<button type='button'> Sửa </button>";
+            var buttonDelete = "<button onclick='deleteItem(this," + person.id + ")' type='button'> Xoá </button>";
+
+            var tdAction = "<td>" + buttonEdit + buttonDelete + "</td>"
+            var tr = "<tr>" + tdId + tdName + tdPhone+tdNote+tdMail+tdWebsite + tdAction + "</tr>"
+
+            $("#table-body").append(tr)
+        }
+
+        function addPerson() {
+            var id = $("#id").val()
+            var name = $("#name").val()
+            var phone = $("#phone").val()
+            var note = $("#note").val()
+            var email = $("#email").val()
+            var website = $("#website").val()
+            var password = $("#password").val()
+            var person = {
+                id: id,
+                name: name,
+                password: password,
+                phone: phone,
+                note: note,
+                mail: mail,
+                website: website
+            }
+            console.log(person)
+
+            $.ajax({
+                url: "http://45.119.213.160:8080/api/user/register",
+                contentType: 'application/json',
+                dataType: 'json',
+                method: 'POST',
+
+                data: JSON.stringify(person),
+                success: function (response) {
+                    appendPersonToTable(response)
+                },
+                error: function (ex) {
+                    console.log(ex)
+                }
+            })
+        }
+
+        function validateAge() {
+            var age = $("#age").val();
+            if (isANumber(age)) {
+                $("#age").css({ 'borderColor': 'green' });
+            } else {
+                $("#age").css({ 'borderColor': 'red' });
+            }
+        }
+
+        function isANumber(str) {
+            return !/\D/.test(str);
+        }
+
+        $(function () {
+            loadData()
+        })
+
+        function deletePerson(id) {
+            var authStr = '0123456789:123456'
+            const basic = "Basic " + btoa(authStr)
+
+            $.ajax({
+                url: "http://45.119.213.160:8080/api/admin/user/delete/" + id,
+                contentType: 'application/json',
+                dataType: 'text',
+                method: 'DELETE',
+                headers: {
+                    Authorization: basic
+                },
+                success: function (response) {
+                    console.log("success")
+                },
+                error: function (ex) {
+                    console.log(ex)
+                }
+            })
+        }
+
+        function submitPerson(person) {
+            var authStr = '0123456789:123456'
+            const basic = "Basic " + btoa(authStr)
+                
+            $.ajax({
+                url: "http://45.119.213.160:8080/api/admin/user/list",
+                contentType: 'application/json',
+                dataType: 'json',
+                method: 'POST',
+                headers: {
+                    Authorization: basic
+                },
+                data: JSON.stringify(person),
+                success: function (response) {
+                    appendPersonToTable(response)
+                },
+                error: function (ex) {
+                    console.log(ex)
+                }
+            })
+        }
+
+        function loadData() {
+            var authStr = '0123456789:123456'
+            const basic = "Basic " + btoa(authStr)
+            const searchObj = { "start":null};
+
+            $.ajax({
+                url: "http://45.119.213.160:8080/api/admin/user/list",
+                contentType: 'application/json',
+                dataType: 'json',
+                method: 'POST',
+                headers: {
+                    Authorization: basic
+                },
+                data: JSON.stringify(searchObj),
+                success: function (response) {
+                    console.log(response)
+                    $("#totalRecord").html("Tong"+ response.recordTotal)
+                    response.data.forEach(function (item) {
+                        appendPersonToTable(item)
+                    })
+                },
+                error: function (ex) {
+                    console.log(ex)
+                }
+            })
+
+            // var xhttp = new XMLHttpRequest();
+            // xhttp.onreadystatechange = function () {
+            //     if (this.readyState == 4 && this.status == 200) {
+            //         console.log(this.responseText);
+            //         //convert sang JS OBject
+            //         const response = JSON.parse(this.responseText);
+            //         console.log(response)
+            //         response.data.forEach(function(item){
+            //             appendPersonToTable(item)
+            //         })
+            //     }
+            // };
+            // xhttp.open("POST", "http://103.237.144.163:8081/api/staff/bus-contact/search", true);
+            // xhttp.setRequestHeader("Content-type", "application/json");
+            // xhttp.setRequestHeader("Authorization", basic);
+            // xhttp.send(JSON.stringify(searchObj));
+        }
+
+    </script>
+</body>
+
+</html>
