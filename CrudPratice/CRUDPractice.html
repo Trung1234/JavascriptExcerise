@@ -10,10 +10,10 @@
     <p id="demo">Hello Js</p>
     <a href="#" id="link">Trung Tam java</a>
     <form>
-        <!-- <div>
+        <div>
             <label>Id: </label>
-            <input id="id" type="text" value="">
-        </div> -->
+            <input id="id" type="hidden" value="">
+        </div>
         <div>
             <label>Name: </label>
             <input id="name" type="text" value="">
@@ -97,7 +97,8 @@
         }
 
         function editItem(pId, pName,pPhone,pPassword,pNote,pEmail,pWebsite) {
-			// $("#id").val(pId);
+            //pass id to update
+			 $("#id").val(pId);
 			$("#name").val(decodeURI(pName));
             $("#phone").val(decodeURI(pPhone));
             $("#password").val(decodeURI(pPassword));
@@ -160,7 +161,8 @@
                 },
                 data: JSON.stringify(person),
                 success: function (response) {
-                    appendPersonToTable(response)
+                    console.log("update")
+                    //appendPersonToTable(response)
                     alert("update successfull")
                 },
                 error: function (ex) {
