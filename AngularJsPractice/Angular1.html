@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<body>
-
-<div ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp">
+<div  ng-controller="myCtrl">
 
 <input ng-model="name">
 
@@ -13,9 +12,31 @@
 
 
 </div>
+<div ng-controller="loginCtrr">
+    <form>
+        <div>
+            <label>Username:</label>
+            <input type="username" ng-model= "username"/>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" ng-model= "password"/>
+        </div>
+        <div>
+            <button type="button">Login</button>
+        </div>
+    </form>
+</div>
 
 <script>
 var app = angular.module('myApp', []);
+
+app.controller('loginCtrr', function($scope) {
+    $scope.username = "John Doe"
+    $scope.password = "123"
+   
+});
+
 app.controller('myCtrl', function($scope) {
     $scope.name = "John Doe";
     $scope.age = 25;
