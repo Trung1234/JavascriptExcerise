@@ -1,0 +1,44 @@
+<h2>JavaScript Objects</h2>
+
+<h4>The prototype object is being used by JavaScript engine in two things</h4>
+
+<ul>
+  <li>To find properties and methods of an object</li>
+  <li>To implement inheritance in JavaScript.</li>
+</ul>
+<p id="myFather"></p>
+<br>
+<p id="student"></p>
+<script>
+    function Person(first, last, age, eye) {
+        this.firstName = first;
+        this.lastName = last;
+        this.age = age;
+        this.eyeColor = eye;
+    }
+
+    Person.prototype.name = function () {
+        return this.firstName + " " + this.lastName
+    };
+
+    const myFather = new Person("John", "Doe", 50, "blue");
+    document.getElementById("myFather").innerHTML =
+        "My father is " + myFather.name();
+
+    function Student() {
+        this.name = 'John';
+        this.gender = 'M';
+    }
+
+    Student.prototype.sayHi = function () {
+        return ": Hi hi";
+    };
+
+    var studObj = new Student();
+    document.getElementById("student").innerHTML =
+        "student name is " + studObj.sayHi();
+</script>
+
+</body>
+
+</html>
